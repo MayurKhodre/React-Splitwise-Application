@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from "./pages/LoginPage"
 import Signup from "./pages/SignupPage"
 import HomePage from './components/HomePage';
+import ExpenseForm from './components/ExpenseForm';
 import PrivateRoute from './utils/PrivateRoute.jsx';
 
 function App() {
@@ -15,6 +16,9 @@ function App() {
 					<Route path="/" element={<Login />} />
 					<Route element={<PrivateRoute />}>
 						<Route path="/home" element={<HomePage />} />
+						<Route path="/expenses/create" element={<ExpenseForm mode="create" />} />
+						<Route path="/expenses/:id/edit" element={<ExpenseForm mode="edit" />} />
+						<Route path="/expenses/:id/view" element={<ExpenseForm mode="view" />} />
 					</Route>
 				</Routes>
 			</div>
