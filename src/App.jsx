@@ -5,6 +5,7 @@ import Signup from "./pages/SignupPage"
 import HomePage from './components/HomePage';
 import ExpenseForm from './components/ExpenseForm';
 import PrivateRoute from './utils/PrivateRoute.jsx';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
 	return (
@@ -19,6 +20,7 @@ function App() {
 						<Route path="/expenses/create" element={<ExpenseForm mode="create" />} />
 						<Route path="/expenses/:id/edit" element={<ExpenseForm mode="edit" />} />
 						<Route path="/expenses/:id/view" element={<ExpenseForm mode="view" />} />
+						<Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
 					</Route>
 				</Routes>
 			</div>
