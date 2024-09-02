@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { logout } from '../utils/Auth';
-import { UserIcon } from '@heroicons/react/24/outline';
+import Tooltip from '@mui/material/Tooltip';
+import { HomeIcon, UserIcon, ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline';
 
 const Header = () => {
 	return (
@@ -14,23 +15,26 @@ const Header = () => {
 
 				{/* Navigation Links */}
 				<nav className="flex items-center space-x-6">
-					<Link to="/home" className="hover:text-gray-300">
-						Home
-					</Link>
+					{/* Home Icon with Tooltip */}
+					<Tooltip title="Home" placement="bottom">
+						<Link to="/home">
+							<HomeIcon className="h-6 w-6 text-white hover:text-gray-300 transition duration-200" />
+						</Link>
+					</Tooltip>
 
-					{/* Profile Link */}
-					<Link to="/profile" className="flex items-center hover:text-gray-300">
-						<UserIcon className="h-6 w-6 mr-2" />
-						<span>Profile</span>
-					</Link>
+					{/* Profile Icon with Tooltip */}
+					<Tooltip title="Profile" placement="bottom">
+						<Link to="/profile">
+							<UserIcon className="h-6 w-6 text-white hover:text-gray-300 transition duration-200" />
+						</Link>
+					</Tooltip>
 
-					{/* Logout Button */}
-					<button
-						onClick={logout}
-						className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg"
-					>
-						Logout
-					</button>
+					{/* Logout Icon with Tooltip */}
+					<Tooltip title="Logout" placement="bottom">
+						<button onClick={logout} className="focus:outline-none">
+							<ArrowLeftOnRectangleIcon className="h-6 w-6 text-white hover:text-gray-300 transition duration-200" />
+						</button>
+					</Tooltip>
 				</nav>
 			</div>
 		</header>

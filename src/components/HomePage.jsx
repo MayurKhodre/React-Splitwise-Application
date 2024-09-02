@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import ExpenseListItem from './ExpenseListItem';
 import Modal from './Modal';
 import { showModal } from '../utils/ModalUtils';
-import Header from './Header'; // Import Header component
+import Header from './Header';
 
 const HomePage = () => {
 	const [expenses, setExpenses] = useState([]);

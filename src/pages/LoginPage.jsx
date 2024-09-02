@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal';
 import { showModal } from '../utils/ModalUtils';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'; // Import Heroicons for password visibility toggle
 
 const Login = () => {
 	const navigate = useNavigate();
@@ -10,6 +11,7 @@ const Login = () => {
 		email: '',
 		password: '',
 	});
+	const [showPassword, setShowPassword] = useState(false); // State for password visibility toggle
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [modalMessage, setModalMessage] = useState('');
 	const [modalType, setModalType] = useState('error');
@@ -25,11 +27,9 @@ const Login = () => {
 		try {
 			const response = await axios.post('http://localhost:8000/api/v1/users/login', formData);
 			if (response.status === 200 && response.data.success) {
-				// Save tokens to localStorage/sessionStorage
-				// localStorage.setItem('authToken', response.headers['accessToken']);
-				// localStorage.setItem('refreshToken', response.headers['refreshToken']);
 				localStorage.setItem('authToken', response.data.data.accessToken);
 				localStorage.setItem('refreshToken', response.data.data.refreshToken);
+				localStorage.setItem('userEmail', response.data.data.user.email); // Store user's email
 
 				showModal(setModalMessage, setModalType, setIsModalOpen, 'Login successful! Redirecting to home page...', 'success');
 			} else {
@@ -67,20 +67,34 @@ const Login = () => {
 							required
 						/>
 					</div>
-					<div className="mb-6">
+					<div className="mb-6 relative">
 						<label className="block text-gray-700 mb-2" htmlFor="password">
 							Password
 						</label>
-						<input
-							type="password"
-							id="password"
-							name="password"
-							className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-							placeholder="Enter your password"
-							value={formData.password}
-							onChange={handleChange}
-							required
-						/>
+						<div className="relative">
+							<input
+								type={showPassword ? 'text' : 'password'} // Toggle between text and password
+								id="password"
+								name="password"
+								className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+								placeholder="Enter your password"
+								value={formData.password}
+								onChange={handleChange}
+								required
+							/>
+							{/* Password visibility toggle button */}
+							<button
+								type="button"
+								className="absolute inset-y-0 right-3 flex items-center"
+								onClick={() => setShowPassword(!showPassword)}
+							>
+								{showPassword ? (
+									<EyeSlashIcon className="h-5 w-5 text-gray-600" />
+								) : (
+									<EyeIcon className="h-5 w-5 text-gray-600" />
+								)}
+							</button>
+						</div>
 					</div>
 					<button
 						type="submit"

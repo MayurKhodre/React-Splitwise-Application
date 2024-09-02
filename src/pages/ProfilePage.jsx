@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Header from '../components/Header';
 
 const ProfilePage = () => {
 	const [user, setUser] = useState(null);
+	const userEmail = localStorage.getItem('userEmail');
 
 	useEffect(() => {
 		const fetchUserProfile = async () => {
 			try {
-				const response = await axios.get('http://localhost:8000/api/v1/user/profile', {
+				const response = await axios.get(`http://localhost:8000/api/v1/users/get-user/${userEmail}`, {
 					headers: {
 						Authorization: `Bearer ${localStorage.getItem('authToken')}`,
 					},
@@ -22,20 +24,40 @@ const ProfilePage = () => {
 	}, []);
 
 	return (
-		<div className="profile-page min-h-screen bg-gray-100 p-6">
-			<h1 className="text-3xl font-bold text-gray-800 mb-6">Profile</h1>
-			{user ? (
-				<div className="bg-white shadow rounded-lg p-6">
-					<h2 className="text-xl font-semibold mb-4">User Details</h2>
-					<p><strong>Username:</strong> {user.username}</p>
-					<p><strong>Full Name:</strong> {user.fullName}</p>
-					<p><strong>Email:</strong> {user.email}</p>
-					<p><strong>Avatar:</strong> <img src={user.avatar} alt="Avatar" className="w-24 h-24 rounded-full" /></p>
-					{/* Add more user details as needed */}
-				</div>
-			) : (
-				<p>Loading...</p>
-			)}
+		<div className="min-h-screen bg-gray-100">
+			<Header />
+			<div className="profile-page p-6 max-w-3xl mx-auto">
+				<h1 className="text-3xl font-bold text-gray-800 mb-6">Profile</h1>
+
+				{user ? (
+					<div className="bg-white shadow rounded-lg p-6">
+						{/* Cover Image (optional) */}
+						{user.coverImage && (
+							<div className="mb-4">
+								<img
+									src={user.coverImage}
+									alt="Cover"
+									className="w-full h-48 object-cover rounded-lg shadow-md"
+								/>
+							</div>
+						)}
+
+						<div className="flex items-center space-x-4">
+							<img
+								src={user.avatar}
+								alt="Avatar"
+								className="w-24 h-24 rounded-full shadow-lg border-4 border-gray-300"
+							/>
+							<div className="flex-1">
+								<h2 className="text-2xl font-semibold text-gray-900 mb-2">{user.fullName}</h2>
+								<p className="text-gray-600 text-lg"><strong>Email:</strong> {user.email}</p>
+							</div>
+						</div>
+					</div>
+				) : (
+					<p>Loading...</p>
+				)}
+			</div>
 		</div>
 	);
 };
