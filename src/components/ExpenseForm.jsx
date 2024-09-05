@@ -21,7 +21,7 @@ const ExpenseForm = ({ mode = 'create' }) => {
 		if (mode === 'edit' || mode === 'view') {
 			const fetchExpense = async () => {
 				try {
-					const response = await api.get(`http://localhost:8000/api/v1/expense/get-expense/${id}`);
+					const response = await api.get(`/expense/get-expense/${id}`);
 					const fetchedExpense = response.data.data;
 					setExpense({
 						description: fetchedExpense.description || '',
@@ -61,10 +61,10 @@ const ExpenseForm = ({ mode = 'create' }) => {
 
 		try {
 			if (mode === 'create') {
-				await api.post('http://localhost:8000/api/v1/expense/add-expense', expense);
+				await api.post('/expense/add-expense', expense);
 				showModal(setModalMessage, setModalType, setIsModalOpen, 'Expense created successfully!', 'success');
 			} else if (mode === 'edit') {
-				await api.put(`http://localhost:8000/api/v1/expense/edit-expense/${id}`, expense);
+				await api.put(`/expense/edit-expense/${id}`, expense);
 				showModal(setModalMessage, setModalType, setIsModalOpen, 'Expense updated successfully!', 'success');
 			}
 		} catch (error) {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import api from '../utils/Api'; // Use the new api instance
 import Modal from '../components/Modal';
 import { showModal } from '../utils/ModalUtils';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'; // Import Heroicons for password visibility toggle
@@ -25,12 +25,17 @@ const Login = () => {
 		e.preventDefault();
 
 		try {
-			const response = await axios.post('http://localhost:8000/api/v1/users/login', formData);
+			// Use api instance instead of axios
+			const response = await api.post('/users/login', formData);
 			if (response.status === 200 && response.data.success) {
-				localStorage.setItem('authToken', response.data.data.accessToken);
-				localStorage.setItem('refreshToken', response.data.data.refreshToken);
-				localStorage.setItem('userEmail', response.data.data.user.email); // Store user's email
+				const { accessToken, refreshToken, user } = response.data.data;
 
+				// Store tokens in localStorage
+				localStorage.setItem('authToken', accessToken);
+				localStorage.setItem('refreshToken', refreshToken);
+				localStorage.setItem('userEmail', user.email); // Optionally store the user's email
+
+				// Show success modal and redirect to home
 				showModal(setModalMessage, setModalType, setIsModalOpen, 'Login successful! Redirecting to home page...', 'success');
 			} else {
 				showModal(setModalMessage, setModalType, setIsModalOpen, 'Login failed. Please check your credentials.', 'error');
@@ -43,7 +48,7 @@ const Login = () => {
 	const handleCloseModal = () => {
 		setIsModalOpen(false);
 		if (modalType === 'success') {
-			navigate('/home');
+			navigate('/home'); // Redirect to home after successful login
 		}
 	};
 

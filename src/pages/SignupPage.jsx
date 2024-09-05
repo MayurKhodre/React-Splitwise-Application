@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import Modal from '../components/Modal';
 import { showModal } from '../utils/ModalUtils';
+import api from '../utils/Api';
 
 function Signup() {
 	const [formData, setFormData] = useState({
@@ -39,7 +39,7 @@ function Signup() {
 		}
 
 		try {
-			const response = await axios.post('http://localhost:8000/api/v1/users/register', formDataToSend, {
+			const response = await api.post('/users/register', formDataToSend, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 				},

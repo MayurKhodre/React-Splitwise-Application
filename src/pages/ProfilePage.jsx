@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import Header from '../components/Header';
+import api from '../utils/Api';
 
 const ProfilePage = () => {
 	const [user, setUser] = useState(null);
@@ -9,7 +9,7 @@ const ProfilePage = () => {
 	useEffect(() => {
 		const fetchUserProfile = async () => {
 			try {
-				const response = await axios.get(`http://localhost:8000/api/v1/users/get-user/${userEmail}`, {
+				const response = await api.get(`/users/get-user/${userEmail}`, {
 					headers: {
 						Authorization: `Bearer ${localStorage.getItem('authToken')}`,
 					},

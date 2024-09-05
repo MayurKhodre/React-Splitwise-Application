@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import ExpenseListItem from './ExpenseListItem';
 import Modal from './Modal';
 import { showModal } from '../utils/ModalUtils';
+import api from '../utils/Api';
 import Header from './Header';
 
 const HomePage = () => {
@@ -13,7 +13,6 @@ const HomePage = () => {
 	const [modalType, setModalType] = useState('success');
 	const [confirmDeleteId, setConfirmDeleteId] = useState(null);
 	const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-	const navigate = useNavigate();
 
 	useEffect(() => {
 		fetchExpenses();
@@ -21,7 +20,7 @@ const HomePage = () => {
 
 	const fetchExpenses = async () => {
 		try {
-			const response = await axios.get('http://localhost:8000/api/v1/expense', {
+			const response = await api.get('/expense', {
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('authToken')}`,
 				},
@@ -39,7 +38,7 @@ const HomePage = () => {
 
 	const handleDelete = async () => {
 		try {
-			await axios.delete(`http://localhost:8000/api/v1/expense/delete-expense/${confirmDeleteId}`, {
+			await api.delete(`/expense/delete-expense/${confirmDeleteId}`, {
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('authToken')}`,
 				},
