@@ -61,23 +61,37 @@ const HomePage = () => {
 
 	return (
 		<div className="min-h-screen bg-gray-100">
-			{/* Add Header to HomePage */}
 			<Header />
 
-			{/* Main content */}
 			<div className="container mx-auto p-6">
-				{/* Flex container to align heading and button in a row */}
 				<div className="flex items-center justify-between mb-6">
 					<h1 className="text-3xl font-bold text-gray-800">Your Expenses</h1>
-					<Link
-						to="/expenses/create"
-						className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition"
-					>
-						Create New Expense
-					</Link>
+					<div className="flex space-x-4">
+						<Link
+							to="/expenses/create"
+							className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition"
+						>
+							Create New Expense
+						</Link>
+
+						{/* Link to Create Group */}
+						<Link
+							to="/create-group"
+							className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition"
+						>
+							Create Group
+						</Link>
+
+						{/* Link to View Groups */}
+						<Link
+							to="/groups"
+							className="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 transition"
+						>
+							View Groups
+						</Link>
+					</div>
 				</div>
 
-				{/* Expense list */}
 				{expenses.length === 0 ? (
 					<div className="text-center text-gray-500 text-lg">No expenses found.</div>
 				) : (
@@ -94,13 +108,7 @@ const HomePage = () => {
 					</div>
 				)}
 
-				{/* Modals */}
-				<Modal
-					isOpen={isModalOpen}
-					message={modalMessage}
-					type={modalType}
-					onClose={handleCloseModal}
-				/>
+				<Modal isOpen={isModalOpen} message={modalMessage} type={modalType} onClose={handleCloseModal} />
 
 				{isConfirmModalOpen && (
 					<div className="fixed inset-0 flex items-center justify-center z-50">
