@@ -75,10 +75,7 @@ const HomePage = () => {
 						</Link>
 
 						{/* Link to Create Group */}
-						<Link
-							to="/create-group"
-							className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition"
-						>
+						<Link to="/groups/create" className="ml-4 bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition">
 							Create Group
 						</Link>
 

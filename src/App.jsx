@@ -6,9 +6,11 @@ import HomePage from './components/HomePage';
 import ExpenseForm from './components/ExpenseForm';
 import PrivateRoute from './utils/PrivateRoute';
 import ProfilePage from './pages/ProfilePage';
-import CreateGroup from './pages/CreateGroup'; // Assuming you have a CreateGroup component
-import GroupList from './pages/GroupList'; // Assuming you have a GroupList component
-import GroupExpense from './pages/GroupExpense'; // Assuming you have a GroupExpense component
+import CreateGroup from './pages/CreateGroup';
+import GroupList from './pages/GroupList';
+import GroupExpense from './pages/GroupExpense';
+import SelectMembersForGroup from './components/SelectMembersForGroup';
+import GroupExpenseList from './components/GroupExpenseList';
 
 function App() {
 	return (
@@ -27,8 +29,10 @@ function App() {
 
 						{/* Routes for groups */}
 						<Route path="/create-group" element={<CreateGroup />} />
+						<Route path="/groups/create" element={<SelectMembersForGroup />} />
 						<Route path="/groups" element={<GroupList />} />
 						<Route path="/groups/:groupId/expenses" element={<GroupExpense />} />
+						<Route path="/group/:groupId/expenses" element={<GroupExpenseList />} />
 					</Route>
 				</Routes>
 			</div>

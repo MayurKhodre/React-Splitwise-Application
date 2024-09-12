@@ -1,28 +1,30 @@
+// GroupExpenseList.jsx
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import api from '../utils/Api';
 import Modal from '../components/Modal';
 import { showModal } from '../utils/ModalUtils';
 
-const GroupList = () => {
-	const [groups, setGroups] = useState([]);
+const GroupExpenseList = () => {
+	const { groupId } = useParams();
+	const navigate = useNavigate();
+	const [expenses, setExpenses] = useState([]);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [modalMessage, setModalMessage] = useState('');
 	const [modalType, setModalType] = useState('error');
-	const navigate = useNavigate();
 
 	useEffect(() => {
-		fetchGroups();
-	}, []);
+		fetchGroupExpenses();
+	}, [groupId]);
 
-	const fetchGroups = async () => {
-		const userEmail = localStorage.getItem('userEmail');
+	const fetchGroupExpenses = async () => {
 		try {
-			const response = await api.get(`/groups/${ userEmail }`);
-			setGroups(response.data.data);
+			const response = await api.get(`/groups/${groupId}/expenses`);
+			setExpenses(response.data.data);
+			console.log('groupExpenses: ', response.data.data);
 		} catch (error) {
-			showModal(setModalMessage, setModalType, setIsModalOpen, 'Failed to fetch groups.', 'error');
+			showModal(setModalMessage, setModalType, setIsModalOpen, 'Failed to fetch group expenses.', 'error');
 		}
 	};
 
@@ -36,21 +38,18 @@ const GroupList = () => {
 				<button onClick={() => navigate('/home')} className="text-gray-700 hover:text-gray-900">
 					<ArrowLeftIcon className="h-6 w-6" />
 				</button>
-				<h1 className="text-3xl font-semibold text-center">Your Groups</h1>
+				<h1 className="text-3xl font-semibold text-center">Group Expenses</h1>
 				<div></div>
 			</div>
-			{groups.length === 0 ? (
-				<div className="text-center text-gray-500">No groups found.</div>
+
+			{expenses.length === 0 ? (
+				<div className="text-center text-gray-500">No expenses found for this group.</div>
 			) : (
 				<ul className="space-y-4">
-					{groups.map((group) => (
-						<li key={group._id} className="p-4 bg-gray-100 rounded-lg shadow-md">
-							<h2 className="text-xl font-semibold">{group.name}</h2>
-							<div className="mt-2">
-								<Link to={`/group/${group._id}/expenses`} className="text-blue-500 hover:underline">
-									View Expenses
-								</Link>
-							</div>
+					{expenses.map((expense) => (
+						<li key={expense._id} className="p-4 bg-gray-100 rounded-lg shadow-md">
+							<h2 className="text-xl font-semibold">{expense.description}</h2>
+							<p>Amount: ₹{expense.amount}</p>
 						</li>
 					))}
 				</ul>
@@ -61,4 +60,4 @@ const GroupList = () => {
 	);
 };
 
-export default GroupList;
+export default GroupExpenseList;
