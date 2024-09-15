@@ -30,10 +30,11 @@ const Login = () => {
 			if (response.status === 200 && response.data.success) {
 				const { accessToken, refreshToken, user } = response.data.data;
 
-				// Store tokens in localStorage
+				// Store tokens and user details in localStorage
 				localStorage.setItem('authToken', accessToken);
 				localStorage.setItem('refreshToken', refreshToken);
-				localStorage.setItem('userEmail', user.email); // Optionally store the user's email
+				localStorage.setItem('userEmail', user.email);
+				localStorage.setItem('userId', user._id);
 
 				// Show success modal and redirect to home
 				showModal(setModalMessage, setModalType, setIsModalOpen, 'Login successful! Redirecting to home page...', 'success');

@@ -11,6 +11,7 @@ import GroupList from './pages/GroupList';
 import GroupExpense from './pages/GroupExpense';
 import SelectMembersForGroup from './components/SelectMembersForGroup';
 import GroupExpenseList from './components/GroupExpenseList';
+import GroupExpenseForm from './components/GroupExpenseForm';
 
 function App() {
 	return (
@@ -33,6 +34,9 @@ function App() {
 						<Route path="/groups" element={<GroupList />} />
 						<Route path="/groups/:groupId/expenses" element={<GroupExpense />} />
 						<Route path="/group/:groupId/expenses" element={<GroupExpenseList />} />
+						<Route path="/group/:groupId/expenses" element={<GroupExpenseList />} />
+						<Route path="/group/:groupId/expenses/create" element={<GroupExpenseForm mode="create" />} />
+						<Route path="/group/:groupId/expenses/:expenseId/edit" element={<GroupExpenseForm mode="edit" />} />
 					</Route>
 				</Routes>
 			</div>
