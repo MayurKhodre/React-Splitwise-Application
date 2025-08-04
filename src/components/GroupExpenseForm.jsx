@@ -6,7 +6,7 @@ import Modal from '../components/Modal';
 import { showModal } from '../utils/ModalUtils';
 
 const GroupExpenseForm = ({ mode = 'create' }) => {
-    const { groupId } = useParams();
+    const { groupId, expenseId } = useParams();
     const navigate = useNavigate();
 
     const [expense, setExpense] = useState({ description: '', amount: '', members: [] });
@@ -31,17 +31,17 @@ const GroupExpenseForm = ({ mode = 'create' }) => {
         if (mode === 'edit' || mode === 'view') {
             const fetchExpense = async () => {
                 try {
-                    const response = await api.get(`/expense/get-expense/${groupId}`);
+                    const response = await api.get(`/groups/${groupId}/${expenseId}`); // Use expenseId here
                     const fetchedExpense = response.data.data;
                     setExpense({
                         description: fetchedExpense.description || '',
                         amount: fetchedExpense.amount !== undefined ? fetchedExpense.amount : 0,
-                        members: fetchedExpense.members || [],
+                        members: fetchedExpense.splitBetween || [],
                     });
                     setOriginalExpense({
                         description: fetchedExpense.description || '',
                         amount: fetchedExpense.amount !== undefined ? fetchedExpense.amount : 0,
-                        members: fetchedExpense.members || [],
+                        members: fetchedExpense.splitBetween || [],
                     });
                 } catch (error) {
                     console.error('Error fetching expense:', error);
@@ -52,7 +52,7 @@ const GroupExpenseForm = ({ mode = 'create' }) => {
         }
 
         fetchGroupMembers();
-    }, [groupId, mode]);
+    }, [groupId, expenseId, mode]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -103,7 +103,7 @@ const GroupExpenseForm = ({ mode = 'create' }) => {
                 await api.post(`/groups/${groupId}/expenses`, expenseData);
                 showModal(setModalMessage, setModalType, setIsModalOpen, 'Group expense created successfully!', 'success');
             } else if (mode === 'edit') {
-                await api.put(`/expense/edit-expense/${groupId}`, expenseData);
+                await api.put(`/groups/${groupId}/edit/${expenseId}`, expenseData); 
                 showModal(setModalMessage, setModalType, setIsModalOpen, 'Group expense updated successfully!', 'success');
             }
         } catch (error) {
