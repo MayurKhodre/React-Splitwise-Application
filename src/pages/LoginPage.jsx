@@ -54,19 +54,19 @@ const Login = () => {
 	};
 
 	return (
-		<div className="min-h-screen flex items-center justify-center bg-gray-100">
-			<div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
-				<h2 className="text-2xl font-bold mb-6 text-gray-900 text-center">Login</h2>
+		<div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+			<div className="max-w-md w-full bg-white dark:bg-gray-800 border border-blue-100 dark:border-gray-700 p-8 rounded-xl shadow-lg">
+				<h2 className="text-2xl font-semibold mb-6 text-blue-900 dark:text-blue-200 text-center">Login to Splitwise</h2>
 				<form onSubmit={handleSubmit}>
-					<div className="mb-4">
-						<label className="block text-gray-700 mb-2" htmlFor="email">
+					<div className="mb-5">
+						<label className="block text-blue-900 dark:text-blue-200 mb-1 font-medium" htmlFor="email">
 							Email
 						</label>
 						<input
 							type="email"
 							id="email"
 							name="email"
-							className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+							className="w-full px-4 py-2 border border-blue-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 bg-gray-50 dark:bg-gray-900 dark:text-gray-100"
 							placeholder="Enter your email"
 							value={formData.email}
 							onChange={handleChange}
@@ -74,44 +74,43 @@ const Login = () => {
 						/>
 					</div>
 					<div className="mb-6 relative">
-						<label className="block text-gray-700 mb-2" htmlFor="password">
+						<label className="block text-blue-900 dark:text-blue-200 mb-1 font-medium" htmlFor="password">
 							Password
 						</label>
 						<div className="relative">
 							<input
-								type={showPassword ? 'text' : 'password'} // Toggle between text and password
+								type={showPassword ? 'text' : 'password'}
 								id="password"
 								name="password"
-								className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+								className="w-full px-4 py-2 border border-blue-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 bg-gray-50 dark:bg-gray-900 dark:text-gray-100"
 								placeholder="Enter your password"
 								value={formData.password}
 								onChange={handleChange}
 								required
 							/>
-							{/* Password visibility toggle button */}
 							<button
 								type="button"
 								className="absolute inset-y-0 right-3 flex items-center"
 								onClick={() => setShowPassword(!showPassword)}
 							>
 								{showPassword ? (
-									<EyeSlashIcon className="h-5 w-5 text-gray-600" />
+									<EyeSlashIcon className="h-5 w-5 text-blue-400" />
 								) : (
-									<EyeIcon className="h-5 w-5 text-gray-600" />
+									<EyeIcon className="h-5 w-5 text-blue-400" />
 								)}
 							</button>
 						</div>
 					</div>
 					<button
 						type="submit"
-						className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+						className="w-full bg-blue-700 dark:bg-blue-900 text-white py-2 rounded-lg font-semibold hover:bg-blue-800 dark:hover:bg-blue-800 transition"
 					>
 						Login
 					</button>
 				</form>
-				<p className="mt-4 text-center text-gray-600">
+				<p className="mt-5 text-center text-blue-700 dark:text-blue-300">
 					Don't have an account?{' '}
-					<Link to="/signup" className="text-blue-500 hover:underline">
+					<Link to="/signup" className="font-semibold hover:underline">
 						Sign Up
 					</Link>
 				</p>

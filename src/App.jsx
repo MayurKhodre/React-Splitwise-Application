@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Login from './pages/LoginPage';
 import Signup from './pages/SignupPage';
 import HomePage from './components/HomePage';
@@ -12,11 +12,24 @@ import GroupExpense from './pages/GroupExpense';
 import SelectMembersForGroup from './components/SelectMembersForGroup';
 import GroupExpenseList from './components/GroupExpenseList';
 import GroupExpenseForm from './components/GroupExpenseForm';
+import Header from './components/Header';
+
+// Helper to conditionally render Header
+function AppLayout({ children }) {
+	const location = useLocation();
+	const hideHeader = location.pathname === '/login' || location.pathname === '/signup' || location.pathname === '/';
+	return (
+		<div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+			{!hideHeader && <Header />}
+			{children}
+		</div>
+	);
+}
 
 function App() {
 	return (
 		<Router>
-			<div>
+			<AppLayout>
 				<Routes>
 					<Route path="/signup" element={<Signup />} />
 					<Route path="/login" element={<Login />} />
@@ -39,7 +52,7 @@ function App() {
 						<Route path="/group/:groupId/expenses/:expenseId/edit" element={<GroupExpenseForm mode="edit" />} />
 					</Route>
 				</Routes>
-			</div>
+			</AppLayout>
 		</Router>
 	);
 }

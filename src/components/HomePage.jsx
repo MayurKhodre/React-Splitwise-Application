@@ -4,7 +4,6 @@ import ExpenseListItem from './ExpenseListItem';
 import Modal from './Modal';
 import { showModal } from '../utils/ModalUtils';
 import api from '../utils/Api';
-import Header from './Header';
 
 const HomePage = () => {
 	const [expenses, setExpenses] = useState([]);
@@ -60,40 +59,36 @@ const HomePage = () => {
 	};
 
 	return (
-		<div className="min-h-screen bg-gray-100">
-			<Header />
-
+		<div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-blue-200 dark:from-gray-900 dark:via-gray-900 dark:to-gray-900 transition-colors duration-300">
 			<div className="container mx-auto p-6">
-				<div className="flex items-center justify-between mb-6">
-					<h1 className="text-3xl font-bold text-gray-800">Your Expenses</h1>
-					<div className="flex space-x-4">
+				<div className="flex items-center justify-between mb-8">
+					<h1 className="text-4xl font-extrabold text-blue-800 dark:text-blue-200 drop-shadow">Your Expenses</h1>
+					<div className="flex space-x-3">
 						<Link
 							to="/expenses/create"
-							className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition"
+							className="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-2 px-5 rounded-xl shadow hover:scale-105 hover:from-blue-600 hover:to-blue-800 transition"
 						>
-							Create New Expense
+							+ New Expense
 						</Link>
-
-						{/* Link to Create Group */}
-						<Link to="/groups/create" className="ml-4 bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition">
-							Create Group
+						<Link
+							to="/groups/create"
+							className="bg-gradient-to-r from-green-500 to-green-700 text-white py-2 px-5 rounded-xl shadow hover:scale-105 hover:from-green-600 hover:to-green-800 transition"
+						>
+							+ New Group
 						</Link>
-
-						{/* Link to View Groups */}
 						<Link
 							to="/groups"
-							className="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 transition"
+							className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white py-2 px-5 rounded-xl shadow hover:scale-105 hover:from-yellow-500 hover:to-yellow-700 transition"
 						>
 							View Groups
 						</Link>
 					</div>
 				</div>
-
-				{expenses.length === 0 ? (
-					<div className="text-center text-gray-500 text-lg">No expenses found.</div>
-				) : (
-					<div className="bg-white shadow-md rounded-lg overflow-hidden">
-						<ul className="divide-y divide-gray-200">
+				<div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg shadow-2xl rounded-2xl p-8">
+					{expenses.length === 0 ? (
+						<div className="text-center text-blue-400 dark:text-blue-300 text-lg font-medium py-10">No expenses found.</div>
+					) : (
+						<ul className="divide-y divide-blue-100 dark:divide-gray-700">
 							{expenses.map((expense) => (
 								<ExpenseListItem
 									key={expense._id}
@@ -102,31 +97,17 @@ const HomePage = () => {
 								/>
 							))}
 						</ul>
-					</div>
-				)}
-
+					)}
+				</div>
 				<Modal isOpen={isModalOpen} message={modalMessage} type={modalType} onClose={handleCloseModal} />
-
 				{isConfirmModalOpen && (
-					<div className="fixed inset-0 flex items-center justify-center z-50">
-						<div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
-							<h2 className="text-xl font-semibold mb-4">Are you sure you want to delete this expense?</h2>
-							<div className="flex justify-end space-x-4">
-								<button
-									onClick={handleCloseConfirmModal}
-									className="bg-gray-300 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-400 transition"
-								>
-									Cancel
-								</button>
-								<button
-									onClick={handleDelete}
-									className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition"
-								>
-									Delete
-								</button>
-							</div>
-						</div>
-					</div>
+					<Modal
+						isOpen={isConfirmModalOpen}
+						message="Are you sure you want to delete this expense?"
+						type="warning"
+						onClose={handleCloseConfirmModal}
+						onConfirm={handleDelete}
+					/>
 				)}
 			</div>
 		</div>

@@ -132,20 +132,19 @@ const GroupExpenseForm = ({ mode = 'create' }) => {
     };
 
     return (
-        <div className="max-w-md mx-auto mt-10 p-8 bg-white shadow-lg rounded-lg">
-            <div className="flex items-center justify-between mb-6">
-                <button onClick={() => navigate(`/group/${groupId}/expenses`)} className="text-gray-700 hover:text-gray-900">
+        <div className="max-w-md mx-auto mt-12 p-10 bg-white/90 dark:bg-gray-800/90 backdrop-blur-lg shadow-2xl rounded-2xl border border-blue-100 dark:border-gray-700 animate-fadeIn">
+            <div className="flex items-center justify-between mb-8">
+                <button onClick={() => navigate(`/group/${groupId}/expenses`)} className="text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-400">
                     <ArrowLeftIcon className="h-6 w-6" />
                 </button>
-                <h1 className="text-2xl font-semibold text-center">
+                <h1 className="text-2xl font-extrabold text-blue-800 dark:text-blue-200 text-center drop-shadow">
                     {mode === 'create' ? 'Create Group Expense' : mode === 'edit' ? 'Edit Group Expense' : 'View Group Expense'}
                 </h1>
                 <div></div>
             </div>
-
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="flex flex-col">
-                    <label htmlFor="description" className="text-gray-700 font-medium mb-2">Description</label>
+                    <label htmlFor="description" className="text-blue-700 dark:text-blue-200 font-semibold mb-2">Description</label>
                     <input
                         id="description"
                         type="text"
@@ -153,12 +152,11 @@ const GroupExpenseForm = ({ mode = 'create' }) => {
                         value={expense.description}
                         onChange={handleChange}
                         disabled={mode === 'view'}
-                        className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="px-4 py-3 border-2 border-blue-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 dark:bg-gray-900 dark:text-gray-100"
                     />
                 </div>
-
                 <div className="flex flex-col">
-                    <label htmlFor="amount" className="text-gray-700 font-medium mb-2">Amount</label>
+                    <label htmlFor="amount" className="text-blue-700 dark:text-blue-200 font-semibold mb-2">Amount</label>
                     <input
                         id="amount"
                         type="number"
@@ -166,17 +164,16 @@ const GroupExpenseForm = ({ mode = 'create' }) => {
                         value={expense.amount}
                         onChange={handleChange}
                         disabled={mode === 'view'}
-                        className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        step="0.01"  // Allows decimal input
+                        className="px-4 py-3 border-2 border-blue-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 dark:bg-gray-900 dark:text-gray-100"
+                        step="0.01"
                     />
                 </div>
-
                 <div className="flex flex-col">
-                    <label className="text-gray-700 font-medium mb-2">Select Members</label>
-                    <div className="border border-gray-300 rounded-lg max-h-60 overflow-y-auto px-4 py-2">
+                    <label className="text-blue-700 dark:text-blue-200 font-semibold mb-2">Select Members</label>
+                    <div className="border-2 border-blue-200 dark:border-gray-700 rounded-xl max-h-60 overflow-y-auto px-4 py-2 bg-blue-50 dark:bg-gray-900">
                         {groupMembers.length > 0 ? (
                             groupMembers.map((member) => (
-                                <div key={member._id} className="flex items-center py-2 border-b last:border-none">
+                                <div key={member._id} className="flex items-center py-2 border-b last:border-none border-gray-200 dark:border-gray-700">
                                     <input
                                         type="checkbox"
                                         id={`member-${member._id}`}
@@ -188,32 +185,30 @@ const GroupExpenseForm = ({ mode = 'create' }) => {
                                     />
                                     <label
                                         htmlFor={`member-${member._id}`}
-                                        className="ml-2 text-gray-700"
+                                        className="ml-2 text-blue-900 dark:text-blue-100"
                                     >
                                         {member.userName}
                                     </label>
                                 </div>
                             ))
                         ) : (
-                            <p className="text-gray-500">No members available.</p>
+                            <p className="text-blue-400 dark:text-blue-300">No members available.</p>
                         )}
                     </div>
                 </div>
-
                 {mode !== 'view' && (
                     <button
                         type="submit"
                         disabled={isSubmitDisabled() || isLoading}
-                        className={`w-full px-4 py-2 text-white rounded-lg ${isSubmitDisabled() || isLoading
+                        className={`w-full px-4 py-3 text-white rounded-xl font-bold text-lg ${isSubmitDisabled() || isLoading
                             ? 'bg-gray-400 cursor-not-allowed'
-                            : 'bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
+                            : 'bg-gradient-to-r from-blue-500 to-blue-700 dark:from-blue-800 dark:to-blue-900 hover:scale-105 hover:from-blue-600 hover:to-blue-800 transition'
                             }`}
                     >
                         {isLoading ? 'Saving...' : mode === 'create' ? 'Create' : 'Save'}
                     </button>
                 )}
             </form>
-
             <Modal
                 isOpen={isModalOpen}
                 message={modalMessage}
